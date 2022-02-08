@@ -996,8 +996,7 @@ class PlayState extends MusicBeatState
 		doof.finishThing = startCountdown;
 		doof2 = new DialogueBox(false, dialogueEnd);
 		doof2.scrollFactor.set();
-		doof2.finishThing = postvideo;
-
+	
 		Conductor.songPosition = -5000;
 		
 		strumLine = new FlxSprite(0, 50).makeGraphic(FlxG.width, 10);
@@ -2876,8 +2875,6 @@ else
 				vocals.stop();
 
 				if (FlxG.save.data.scoreScreen)
-					openSubState(new ResultsScreen());
-				else
 					FlxG.switchState(new PlayState());
 			}
 		}
