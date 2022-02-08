@@ -181,6 +181,10 @@ class StoryMenuState extends MusicBeatState
 		updateText();
 
 		trace("Line 165");
+		
+		#if mobileC
+        addVirtualPad(FULL, A_B);
+        #end
 
 		super.create();
 	}
@@ -290,29 +294,17 @@ class StoryMenuState extends MusicBeatState
 			PlayState.SONG = Song.loadFromJson(poop, PlayState.storyPlaylist[0]);
 			PlayState.storyWeek = curWeek;
 			PlayState.campaignScore = 0;
-			var video:MP4Handler = new MP4Handler();
-
-			if (curWeek == 1 && !isCutscene) // Checks if the current week is Tutorial.
+			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
-				video.playMP4(Paths.video('coco intro'));
-				video.finishCallback = function()
+			    if (curWeek == 2) // Checks if the current week is Tutorial.
+			    {
+				    LoadingState.loadAndSwitchState(new VideoState('assets/videos/coco intro.webm', new PlayState()));
+			    }
+				else
 				{
-					LoadingState.loadAndSwitchState(new PlayState());
+				    LoadingState.loadAndSwitchState(new PlayState(), true);
 				}
-				
-				isCutscene = true;
-			}
-else
-{
-    new FlxTimer().start(1, function(tmr:FlxTimer)
-    {
-        if (isCutscene)
-            video.onVLCComplete();
-
-        LoadingState.loadAndSwitchState(new PlayState(), true);
-    });
-}
-
+			});
 		}
 	}
 
