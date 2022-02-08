@@ -296,8 +296,8 @@ class StoryMenuState extends MusicBeatState
 			PlayState.campaignScore = 0;
 			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
-			    if (curWeek == 2) // Checks if the current week is Tutorial.
-			    {
+			    if (PlayState.SONG.song.toLowerCase() == 'calm')
+				{
 				    LoadingState.loadAndSwitchState(new VideoState('assets/videos/coco intro.webm', new PlayState()));
 			    }
 				else
@@ -306,7 +306,7 @@ class StoryMenuState extends MusicBeatState
 				}
 			});
 		}
-	}
+	} 
 
 	function changeDifficulty(change:Int = 0):Void
 	{

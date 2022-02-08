@@ -1103,17 +1103,11 @@ class PlayState extends MusicBeatState
 		if (PlayStateChangeables.useDownscroll)
 			kadeEngineWatermark.y = FlxG.height * 0.9 + 45;
 
-		scoreTxt = new FlxText(FlxG.width / 2 - 235, healthBarBG.y + 50, 0, "", 20);
-
-		scoreTxt.screenCenter(X);
-
-		originalX = scoreTxt.x;
-
-
+		scoreTxt = new FlxText(0, healthBarBG.y + 36, FlxG.width, "", 20);
+		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
-		
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, FlxTextAlign.CENTER);
-
+		scoreTxt.borderSize = 1.25;
+		scoreTxt.visible = !ClientPrefs.hideHud;
 		add(scoreTxt);
 
 		replayTxt = new FlxText(healthBarBG.x + healthBarBG.width / 2 - 75, healthBarBG.y + (PlayStateChangeables.useDownscroll ? 100 : -100), 0, "REPLAY", 20);
@@ -2790,19 +2784,7 @@ else
 
 				storyPlaylist.remove(storyPlaylist[0]);
 
-				if (storyPlaylist.length <= 0)
-				{
-					switch (PlayState.SONG.song.toLowerCase()){
-						case 'calm-paster':
-							transIn = FlxTransitionableState.defaultTransIn;
-							transOut = FlxTransitionableState.defaultTransOut;
-							inCutscene = true;
-							paused = true;
-							FlxG.sound.music.stop();
-							vocals.stop();
-							
-							LoadingState.loadAndSwitchState(new MainMenuState());
-					}
+				
 
 					#if windows
 					if (luaModchart != null)
@@ -2857,8 +2839,6 @@ else
 
 					switch(SONG.song.toLowerCase())
                     {
-					    case "calm-paster":
-				            endCutscene(doof2);
 						default:
                             LoadingState.loadAndSwitchState(new PlayState());
                      }
@@ -2957,6 +2937,32 @@ else
 								sicks++;	
 							}					
 			}
+			
+			var sploosh:FlxSprite = new FlxSprite(daNote.x, playerStrums.members[daNote.noteData].y);
+           if (!curStage.startsWith('school'))
+           {
+                  var tex:flixel.graphics.frames.FlxAtlasFrames = Paths.getSparrowAtlas('noteSplashes', 'shared');
+                  sploosh.frames = tex;
+                  sploosh.animation.addByPrefix('splash 0 0', 'note splash purple 1', 24, false);
+                  sploosh.animation.addByPrefix('splash 0 1', 'note splash blue 1', 24, false);
+                  sploosh.animation.addByPrefix('splash 0 2', 'note splash green 1', 24, false);
+                  sploosh.animation.addByPrefix('splash 0 3', 'note splash red 1', 24, false);
+                  sploosh.animation.addByPrefix('splash 1 0', 'note splash purple 2', 24, false);
+                  sploosh.animation.addByPrefix('splash 1 1', 'note splash blue 2', 24, false);
+                  sploosh.animation.addByPrefix('splash 1 2', 'note splash green 2', 24, false);
+                  sploosh.animation.addByPrefix('splash 1 3', 'note splash red 2', 24, false);
+                  
+              if (daRating == 'sick')
+              {
+                   add(sploosh);
+                   sploosh.cameras = [camHUD];
+                   sploosh.animation.play('splash ' + FlxG.random.int(0, 1) + " " + daNote.noteData);
+                   sploosh.alpha = 0.6;
+                   sploosh.offset.x += 90;
+                   sploosh.offset.y += 80;
+                   sploosh.animation.finishCallback = function(name) sploosh.kill();
+              }
+           }
 
 			// trace('Wife accuracy loss: ' + wife + ' | Rating: ' + daRating + ' | Score: ' + score + ' | Weight: ' + (1 - wife));
 
