@@ -47,7 +47,7 @@ class VideoState extends MusicBeatState
 		transClass = toTrans;
 		if (frameSkipLimit != -1 && GlobalVideo.isWebm)
 		{
-			WebmPlayer.SKIP_STEP_LIMIT = frameSkipLimit;	
+			//WebmPlayer.SKIP_STEP_LIMIT = frameSkipLimit;	
 		}
 	}
 	
