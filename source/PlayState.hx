@@ -2841,7 +2841,7 @@ else
                     {
 						default:
                             LoadingState.loadAndSwitchState(new PlayState());
-                     }
+                    }
 				}
 			}
 			else
@@ -2855,7 +2855,7 @@ else
 				vocals.stop();
 
 				if (FlxG.save.data.scoreScreen)
-					FlxG.switchState(new PlayState());
+					FlxG.switchState(new FreeplayState());
 			}
 		}
 	}
