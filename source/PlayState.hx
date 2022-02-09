@@ -2765,7 +2765,14 @@ else
 
 					FlxG.switchState(new StoryMenuState());
 
-					
+					if (PlayState.SONG.song.toLowerCase() == 'joyful')
+				    {
+				          FlxG.switchState(new VideoState('assets/videos/coco-snap.webm', new PlayState()));
+			        }
+				   else
+				   {
+				         FlxG.switchState(new PlayState(), true);
+				   }
 
 					// if ()
 					StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
