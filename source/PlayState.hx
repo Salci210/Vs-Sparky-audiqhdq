@@ -2767,11 +2767,11 @@ else
 
 					if (PlayState.SONG.song.toLowerCase() == 'joyful')
 				    {
-				          FlxG.switchState(new VideoState('assets/videos/coco-snap.webm', new PlayState()));
+				          LoadingState.loadAndSwitchState(new VideoState('assets/videos/coco-snap.webm', new PlayState()));
 			        }
 				   else
 				   {
-				         FlxG.switchState(new PlayState(), true);
+				         LoadingState.loadAndSwitchState(new PlayState());
 				   }
 
 					// if ()
