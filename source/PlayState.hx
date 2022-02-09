@@ -2766,11 +2766,7 @@ else
 
 					FlxG.switchState(new StoryMenuState());
 
-					if (luaModchart != null)
-					{
-						luaModchart.die();
-						luaModchart = null;
-					}
+					
 
 					// if ()
 					StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
