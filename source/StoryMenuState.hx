@@ -300,6 +300,10 @@ class StoryMenuState extends MusicBeatState
 				{
 				    LoadingState.loadAndSwitchState(new VideoState('assets/videos/coco intro.webm', new PlayState()));
 			    }
+			    else if (PlayState.SONG.song.toLowerCase() == 'calm-paster')
+				{
+					LoadingState.loadAndSwitchState(new VideoState('assets/videos/coco-snap.webm', new PlayState()));
+				} 
 				else
 				{
 				    LoadingState.loadAndSwitchState(new PlayState(), true);

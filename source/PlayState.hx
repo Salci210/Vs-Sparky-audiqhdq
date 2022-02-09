@@ -2757,7 +2757,7 @@ else
 				if (storyPlaylist.length <= 0)
 				{
 				
-				    FlxG.switchState(new VideoState('assets/videos/basementoutro.webm', new MainMenuState()));
+				    FlxG.switchState(new VideoState('assets/videos/coco-outro.webm', new MainMenuState()));
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 
 					transIn = FlxTransitionableState.defaultTransIn;
