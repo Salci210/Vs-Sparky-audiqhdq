@@ -1,4 +1,4 @@
-#if android
+#if mobileC
 package;
 
 //Thanks Daninnocent
