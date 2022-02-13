@@ -15,7 +15,7 @@ import openfl.Lib;
 import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
-#if android //only android will use those
+#if mobileC
 import sys.FileSystem;
 import lime.system.System;
 import android.*;
@@ -33,9 +33,9 @@ class Main extends Sprite
 
 	public static var watermarks = true; // Whether to put Kade Engine literally anywhere
 
-	// You can pretty much ignore everything from here on - your code should go in your states.
+	// You can Vs tty much ignore everything from here on - your code should go in your states.
 
-        #if android//the things android uses  
+        #if mobileC
         private static var androidDir:String = null;
         private static var storagePath:String = AndroidTools.getExternalStorageDirectory();  
         #end
@@ -66,7 +66,7 @@ class Main extends Sprite
 
         static public function getDataPath():String
         {
-        	#if android
+        	#if mobileC 
                 if (androidDir != null && androidDir.length > 0) 
                 {
                         return androidDir;
@@ -105,7 +105,7 @@ class Main extends Sprite
 			gameHeight = Math.ceil(stageHeight / zoom);
 		}
 
-                #if android
+                #if mobileC 
                 if (AndroidTools.getSDKversion() > 23 || AndroidTools.getSDKversion() == 23) {
 		    AndroidTools.requestPermissions([Permissions.READ_EXTERNAL_STORAGE, Permissions.WRITE_EXTERNAL_STORAGE]);
 		}  
