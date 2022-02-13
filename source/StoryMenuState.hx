@@ -182,9 +182,10 @@ class StoryMenuState extends MusicBeatState
 
 		trace("Line 165");
 		
-		#if mobileC
-        addVirtualPad(FULL, A_B);
-        #end
+		#if android
+		addVirtualPad(FULL, A_B);
+		#end
+
 
 		super.create();
 	}
@@ -294,23 +295,27 @@ class StoryMenuState extends MusicBeatState
 			PlayState.SONG = Song.loadFromJson(poop, PlayState.storyPlaylist[0]);
 			PlayState.storyWeek = curWeek;
 			PlayState.campaignScore = 0;
-			new FlxTimer().start(1, function(tmr:FlxTimer)
+			
+			if (curWeek == 0)
 			{
-			    if (PlayState.SONG.song.toLowerCase() == 'calm')
+				if (!isCutscene) // Checks if the current week is Tutorial.
 				{
-				    LoadingState.loadAndSwitchState(new VideoState('assets/videos/coco intro.webm', new PlayState()));
-			    }
-			    else if (PlayState.SONG.song.toLowerCase() == 'calm-paster')
-				{
-					LoadingState.loadAndSwitchState(new VideoState('assets/videos/coco-snap.webm', new PlayState()));
-				} 
-				else
-				{
-				    LoadingState.loadAndSwitchState(new PlayState(), true);
+                                        var video = new WebViewPlayer('coco intro');                                                     
+                                        video.finishCallback = function() {                                                               
+                                                  LoadingState.loadAndSwitchState(new PlayState(), true);      
+                                        }
+					isCutscene = true;
 				}
-			});
+				else
+				{					
+			                LoadingState.loadAndSwitchState(new PlayState(), true);
+				}
+			}
+			else
+				LoadingState.loadAndSwitchState(new PlayState(), true);
+
 		}
-	} 
+	}
 
 	function changeDifficulty(change:Int = 0):Void
 	{
