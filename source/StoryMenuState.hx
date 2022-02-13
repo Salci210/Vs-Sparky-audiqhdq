@@ -296,23 +296,24 @@ class StoryMenuState extends MusicBeatState
 			PlayState.storyWeek = curWeek;
 			PlayState.campaignScore = 0;
 			
-			if (curWeek == 0)
+			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
-				if (!isCutscene) // Checks if the current week is Tutorial.
+			    if (PlayState.SONG.song.toLowerCase() == 'calm')
 				{
+				    if (!isCutscene) // Checks if the current week is Tutorial.
+				    {
                                         var video = new WebViewPlayer('coco intro');                                                     
                                         video.finishCallback = function() {                                                               
                                                   LoadingState.loadAndSwitchState(new PlayState(), true);      
                                         }
-					isCutscene = true;
-				}
+					                   isCutscene = true;
+				    }
+			    }
 				else
-				{					
-			                LoadingState.loadAndSwitchState(new PlayState(), true);
+				{
+				    LoadingState.loadAndSwitchState(new PlayState(), true);
 				}
-			}
-			else
-				LoadingState.loadAndSwitchState(new PlayState(), true);
+			}); 
 
 		}
 	}

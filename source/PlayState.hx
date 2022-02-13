@@ -2882,8 +2882,6 @@ else
 				vocals.stop();
 
 				if (FlxG.save.data.scoreScreen)
-					openSubState(new ResultsScreen());
-				else
 					FlxG.switchState(new PlayState());
 			}
 		}
