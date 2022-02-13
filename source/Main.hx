@@ -1,8 +1,11 @@
 package;
 
+import lime.app.Application;
+#if windows
+import Discord.DiscordClient;
+#end
 import openfl.display.BlendMode;
 import openfl.text.TextFormat;
-import openfl.display.Application;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxGame;
@@ -12,6 +15,11 @@ import openfl.Lib;
 import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
+#if android //only android will use those
+import sys.FileSystem;
+import lime.system.System;
+import android.*;
+#end
 
 class Main extends Sprite
 {
@@ -19,13 +27,18 @@ class Main extends Sprite
 	var gameHeight:Int = 720; // Height of the game in pixels (might be less / more in actual pixels depending on your zoom).
 	var initialState:Class<FlxState> = TitleState; // The FlxState the game starts with.
 	var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
-	var framerate:Int = 120; // How many frames per second the game should run at.
+	var framerate:Int = 60; // How many frames per second the game should run at.
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
 	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
 
-	public static var watermarks = true; // Whether to put Kade Engine liteartly anywhere
+	public static var watermarks = true; // Whether to put Kade Engine literally anywhere
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
+
+        #if android//the things android uses  
+        private static var androidDir:String = null;
+        private static var storagePath:String = AndroidTools.getExternalStorageDirectory();  
+        #end
 
 	public static function main():Void
 	{
@@ -51,6 +64,23 @@ class Main extends Sprite
 
 	public static var webmHandler:WebmHandler;
 
+        static public function getDataPath():String
+        {
+        	#if android
+                if (androidDir != null && androidDir.length > 0) 
+                {
+                        return androidDir;
+                } 
+                else 
+                { 
+                        androidDir = storagePath + "/" + Application.current.meta.get("packageName") + "/files/";
+                }
+                return androidDir;
+                #else
+                return "";
+	        #end
+        }
+
 	private function init(?E:Event):Void
 	{
 		if (hasEventListener(Event.ADDED_TO_STAGE))
@@ -75,20 +105,51 @@ class Main extends Sprite
 			gameHeight = Math.ceil(stageHeight / zoom);
 		}
 
-		#if cpp
-		initialState = TitleState;
+                #if android
+                if (AndroidTools.getSDKversion() > 23 || AndroidTools.getSDKversion() == 23) {
+		    AndroidTools.requestPermissions([Permissions.READ_EXTERNAL_STORAGE, Permissions.WRITE_EXTERNAL_STORAGE]);
+		}  
+
+                var grantedPermsList:Array<Permissions> = AndroidTools.getGrantedPermissions();    
+
+                if (!grantedPermsList.contains(Permissions.READ_EXTERNAL_STORAGE) || !grantedPermsList.contains(Permissions.WRITE_EXTERNAL_STORAGE)) {
+                	if (AndroidTools.getSDKversion() > 23 || AndroidTools.getSDKversion() == 23) {
+                        	Application.current.window.alert("If you accepted the permisions for storage, good, you can continue, if you not the game can't run without storage permissions please grant them in app settings" + "\n" + "Press Ok To Close The App","Permissions");
+                                System.exit(0);//Will close the game
+		        } else {
+                        	Application.current.window.alert("game can't run without storage permissions please grant them in app settings" + "\n" + "Press Ok To Close The App","Permissions");
+                                System.exit(0);//Will close the game
+		        }
+                }
+                else
+                {
+                        if (!FileSystem.exists(storagePath + "/" + Application.current.meta.get("packageName"))) {
+                                FileSystem.createDirectory(storagePath + "/" + Application.current.meta.get("packageName"));
+                        } 
+                        if (!FileSystem.exists(storagePath + "/" + Application.current.meta.get("packageName") + '/files')) {
+                                FileSystem.createDirectory(storagePath + "/" + Application.current.meta.get("packageName") + '/files');
+                        }
+                        if (!FileSystem.exists(Main.getDataPath() + "assets")) {
+                                FileSystem.createDirectory(Main.getDataPath() + "assets");
+                        }
+                }
+                #end
+
 		game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
-		#else
-		game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
-		#end
 		addChild(game);
-		
-		#if !mobile
+
+		#if windows
+		DiscordClient.initialize();
+
+		Application.current.onExit.add (function (exitCode) {
+			DiscordClient.shutdown();
+		 });
+		 
+		#end
+
 		fpsCounter = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsCounter);
 		toggleFPS(FlxG.save.data.fps);
-
-		#end
 	}
 
 	var game:FlxGame;
