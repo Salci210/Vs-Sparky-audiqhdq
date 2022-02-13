@@ -114,7 +114,7 @@ class Main extends Sprite
 
                 if (!grantedPermsList.contains(Permissions.READ_EXTERNAL_STORAGE) || !grantedPermsList.contains(Permissions.WRITE_EXTERNAL_STORAGE)) {
                 	if (AndroidTools.getSDKversion() > 23 || AndroidTools.getSDKversion() == 23) {
-                        	Application.current.window.alert("si le diste a aceptar permisos piola podes continuar lol, "but si no lo hicist pos jodet na mentira solo activalos en ajustes" + "\n" + "Dale a ok","Permissions");
+                        	Application.current.window.alert("si le diste a aceptar permisos piola podes continuar lol, but si no lo hicist pos jodet na mentira solo activalos en ajustes" + "\n" + "Dale a ok","Permissions");
                                 System.exit(0);//Will close the game
 		        } else {
                         	Application.current.window.alert("Weon el mp4 nesecita permisos de almacenamiento coñ" + "\n" + "Fuck u","Permissions");
