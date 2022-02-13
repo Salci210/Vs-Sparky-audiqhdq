@@ -129,10 +129,7 @@
 	<haxelib name="discord_rpc" if="windows"/>
 	<haxelib name="linc_luajit" if="windows"/>
         <haxelib name="extension-webview"/>
-        <haxelib name="AndroidTools"/>
-
-        <config:android permission="android.permission.READ_EXTERNAL_STORAGE" if="mobile"/>
-        <config:android permission="android.permission.WRITE_EXTERNAL_STORAGE" if="mobile"/>
+        
 
 	<!-- <haxelib name="hxcpp-debug-server" if="desktop"/> -->
 
