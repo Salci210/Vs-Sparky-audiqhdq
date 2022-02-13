@@ -131,8 +131,8 @@
         <haxelib name="extension-webview"/>
         <haxelib name="AndroidTools"/>
 
-        <config:android permission="android.permission.READ_EXTERNAL_STORAGE" if="android"/>
-        <config:android permission="android.permission.WRITE_EXTERNAL_STORAGE" if="android"/>
+        <config:android permission="android.permission.READ_EXTERNAL_STORAGE" if="mobile"/>
+        <config:android permission="android.permission.WRITE_EXTERNAL_STORAGE" if="mobile"/>
 
 	<!-- <haxelib name="hxcpp-debug-server" if="desktop"/> -->
 
